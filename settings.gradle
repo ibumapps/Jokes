@@ -1,5 +1,3 @@
-include ':mobile-app'
-
 rootProject.name = 'jokes'
 
-include 'server', 'mobile-app'
+include 'server'//, 'mobile-app'
