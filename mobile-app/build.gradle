@@ -1,0 +1,72 @@
+buildscript {
+    ext.kotlin_version = '1.1.4-2'
+    ext.dagger_version = '2.10'
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//        classpath "com.jakewharton:butterknife-gradle-plugin:8.5.1"
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
+
+    defaultConfig {
+        applicationId "com.bumsoft.jokes"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+
+    jcenter()
+    mavenCentral()
+}
+
+kotlin { experimental { coroutines 'enable' } }
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'org.jetbrains.anko:anko-common:0.10.1'
+    compile 'org.jetbrains.anko:anko-sdk25:0.10.1'
+    compile 'org.jetbrains.anko:anko-coroutines:0.10.1'
+    compile 'org.jetbrains.anko:anko-appcompat-v7:0.10.1'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.android.support:design:26.0.0-alpha1'
+    compile 'com.android.support:support-v4:26.0.0-alpha1'
+    compile "com.daimajia.swipelayout:library:1.2.0@aar"
+    compile 'com.android.support:cardview-v7:26+'
+    compile "com.yuyakaido.android:card-stack-view:1.0+"
+}
