@@ -29,6 +29,8 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	compile 'org.springframework.boot:spring-boot-starter-data-redis'
 	compile 'org.codehaus.groovy:groovy'
+
+	compile 'org.ccil.cowan.tagsoup:tagsoup:1.2'
 //	compileOnly('org.springframework.boot:spring-boot-configuration-processor')
 //	testCompile 'org.springframework.boot:spring-boot-starter-test'
 //	testCompile 'org.springframework.security:spring-security-test'

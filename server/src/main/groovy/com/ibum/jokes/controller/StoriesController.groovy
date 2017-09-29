@@ -19,7 +19,7 @@ class StoriesController {
     @RequestMapping('/random')
     StoryModel getRandomStory(@RequestParam('device_id') String deviceId) {
 
-        storyService.getStory(new Random().nextInt(50))
+        storyService.getStory(null)
     }
 
     @RequestMapping(method = RequestMethod.POST)

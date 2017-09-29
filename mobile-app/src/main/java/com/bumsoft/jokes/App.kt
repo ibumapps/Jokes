@@ -22,7 +22,7 @@ class App: Application() {
         val retrofit = Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://192.168.0.100:8000")
+                .baseUrl("http://104.155.96.154/jokes/")
                 .build()
 
         serverRepository = retrofit.create<ServerRepository> (ServerRepository::class.java)

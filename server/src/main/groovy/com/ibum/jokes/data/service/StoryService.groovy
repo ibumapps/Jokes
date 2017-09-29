@@ -21,13 +21,11 @@ class StoryService {
     @Autowired
     StringRedisTemplate redisTemplate
 
-    StoryModel getStory(long id) {
+    StoryModel getStory(Long id) {
 
-        def size = storyRepository.count()
+        if (!id) {
 
-        if (id > size) {
-
-            id = id - (long)(id / size) * size
+            id = new Random().nextInt(storyRepository.count() as int)
         }
 
         def story = storyRepository.findAll(new PageRequest(id as int, 1)).find() as Story
