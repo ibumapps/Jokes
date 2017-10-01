@@ -35,3 +35,19 @@ dependencies {
 //	testCompile 'org.springframework.boot:spring-boot-starter-test'
 //	testCompile 'org.springframework.security:spring-security-test'
 }
+
+build.doLast { tasks.zip.execute() }
+
+task zip(type: Zip) {
+
+	from("${rootProject.projectDir.path}/bin")
+
+	from('build/resources/main') {
+		include '*.properties'
+	}
+	from('build/libs') {
+		include('*.jar')
+	}
+
+	destinationDir new File("${rootProject.projectDir.path}/build")
+}
