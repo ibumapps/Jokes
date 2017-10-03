@@ -1,6 +1,5 @@
 package com.ibum.jokes.controller
 
-import com.ibum.jokes.data.domain.Story
 import com.ibum.jokes.data.service.StoryService
 import com.ibum.jokes.model.StoryModel
 import groovy.util.logging.Slf4j
