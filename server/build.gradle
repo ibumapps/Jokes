@@ -40,7 +40,7 @@ build.doLast { tasks.zip.execute() }
 
 task zip(type: Zip) {
 
-	from("${rootProject.projectDir.path}/bin/*")
+	from("bin")
 
 	from('build/resources/main') {
 		include '*.properties'
