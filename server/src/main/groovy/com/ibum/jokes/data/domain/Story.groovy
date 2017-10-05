@@ -27,4 +27,5 @@ class Story {
 
     long like = 0
     long dislike = 0
+    long rating = 0
 }

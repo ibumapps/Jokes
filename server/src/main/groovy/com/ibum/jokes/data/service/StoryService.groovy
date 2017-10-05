@@ -51,6 +51,7 @@ class StoryService {
         def story = storyRepository.findByCode(code)
 
         story.like++
+        story.rating = story.like - story.dislike
         storyRepository.save(story)
 
         toStoryModel(story)
@@ -61,6 +62,7 @@ class StoryService {
         def story = storyRepository.findByCode(code)
 
         story.dislike++
+        story.rating = story.like - story.dislike
         storyRepository.save(story)
 
         toStoryModel(story)
@@ -68,36 +70,47 @@ class StoryService {
 
     StoryModel toStoryModel(Story story) {
 
+        if (!story) {
+            return null
+        }
+
         new StoryModel(
-                id: story.code as int,
-                title: story.title,
-                body: story.text,
-                rating: story.like - story.dislike
+                id:         story.code as int,
+                title:      story.title,
+                body:       story.text,
+                rating:     story.rating,
+                like:       story.like,
+                dislike:    story.dislike
         )
     }
 
-    StoryModel getRatingStory(int index) {
+    StoryModel getRatingStory(String deviceId, boolean reset) {
 
-        def count = storyRepository.count()
-
-        if (index > count) {
-            index = count - 1
+        def index = 0
+        if (reset) {
+            redisTemplate.opsForValue().set("devices:${deviceId}:rating-index".toString(), '0')
+        } else {
+            index = redisTemplate.opsForValue().increment("devices:${deviceId}:rating-index".toString(), 1)
         }
 
-        def story = storyRepository.findAll(new PageRequest(index, 1, new Sort(Sort.Direction.ASC, ['like', 'dislike']))).find() as Story
+        def story = storyRepository.findAll(new PageRequest(index as int, 1, new Sort(Sort.Direction.DESC, ['rating']))).find() as Story
 
         toStoryModel(story)
     }
 
-    StoryModel getNewStory(int index) {
+    StoryModel getNewStory(String deviceId, boolean reset) {
 
-        def count = storyRepository.count()
+        def index = 0
 
-        if (index > count) {
-            index = count - 1
+        if (reset) {
+
+            redisTemplate.opsForValue().set("devices:${deviceId}:new-index".toString(), '0')
+        } else {
+
+            index = redisTemplate.opsForValue().increment("devices:${deviceId}:new-index".toString(), 1)
         }
 
-        def story = storyRepository.findAll(new PageRequest(index, 1, new Sort(Sort.Direction.DESC, ['createDate']))).find() as Story
+        def story = storyRepository.findAll(new PageRequest(index as int, 1, new Sort(Sort.Direction.DESC, ['createDate']))).find() as Story
 
         toStoryModel(story)
     }

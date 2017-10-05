@@ -4,6 +4,7 @@ import com.ibum.jokes.data.service.StoryService
 import com.ibum.jokes.model.StoryModel
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -14,6 +15,9 @@ class StoriesController {
 
     @Autowired
     StoryService storyService
+
+    @Autowired
+    StringRedisTemplate redisTemplate
 
     @RequestMapping('/random')
     StoryModel getRandomStory(@RequestParam('device_id') String deviceId) {
@@ -48,14 +52,16 @@ class StoriesController {
     }
 
     @RequestMapping(value = '/rating')
-    def getRatingStory(@RequestParam('device_id') String deviceId) {
+    def getRatingStory(@RequestParam('device_id') String deviceId,
+                       @RequestParam(value = 'reload', defaultValue = 'false') boolean reload) {
 
-        storyService.getRatingStory(new Random().nextInt(50))
+        storyService.getRatingStory(deviceId, reload)
     }
 
     @RequestMapping('/new')
-    def getNewStory(@RequestParam('device_id') String deviceId) {
+    def getNewStory(@RequestParam('device_id') String deviceId,
+                    @RequestParam(value = 'reload', defaultValue = 'false') boolean reload) {
 
-        storyService.getNewStory(new Random().nextInt(50))
+        storyService.getNewStory(deviceId, reload)
     }
 }

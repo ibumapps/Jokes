@@ -11,5 +11,7 @@ class StoryModel {
 
     String body
 
+    long like
+    long dislike
     long rating
 }
